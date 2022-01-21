@@ -1,11 +1,3 @@
-/*******************************************************************************
- * Copyright (C) 2014 Joel Summerfield - All Rights Reserved
- *
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- *
- * Authored by Joel Summerfield <joel@mneah.com>
- ******************************************************************************/
 function PreviewBar(id, class_name)
 {
     this.id = id;

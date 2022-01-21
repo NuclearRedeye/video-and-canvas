@@ -1,0 +1,91 @@
+/******************************************************************************* 
+ * Copyright (C) Joel Summerfield - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Joel Summerfield <joel@mneah.com>, July 2016
+ ******************************************************************************/
+body
+{
+    margin: 0px;
+    padding: 0px;
+    width: 1280px;
+    height: 720px;
+    overflow: hidden;
+    font-family: sans-serif;
+    font-weight: 200;
+    color: gray;
+    font-size: 32px;
+}
+
+video
+{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 1280px;
+    height: 720px;
+}
+
+#video-primary
+{
+}
+
+#video-secondary
+{
+    display: none;
+}
+
+.preview-bar
+{
+    position: absolute;
+    top: 440px;
+    left: 0px;
+    width: 1280px;
+    height: 260px;
+    opacity: 0.85;
+    -webkit-transition: -webkit-transform 1.0s ease-in-out;
+    -webkit-transform:  translate3d(0,260px,0);
+    overflow: hidden;
+}
+
+.preview-list
+{
+    position: relative;
+    top: 20px;
+    left: 40px;
+    width: 1200px;
+    height: 220px;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-transform:  translate3d(0,0,0);
+    -webkit-transition: -webkit-transform 0.5s linear;
+}
+
+.preview-item
+{
+    position: relative;
+    width: 256px;
+    height: 220px;
+    padding: 6px 8px 10px 8px;
+    background: #eee6d8;
+    background: -webkit-linear-gradient(top, #ede1c9, #fef8e2 20%, #f2ebde 60%);
+    -webkit-box-shadow: 4px 4px 8px -4px rgba(0, 0, 0, .75);
+    margin-right: 30px;
+    -webkit-transform: scale(0.9,0.9) rotate(-3deg);
+    -webkit-transition: -webkit-transform 0.3s linear;
+}
+
+.preview-item:nth-child(even)
+{
+    -webkit-transform: scale(0.9,0.9) rotate(3deg);
+}
+
+.preview-item-title
+{
+    width: 256px;
+    height: 40px;
+    font-size: 22px;
+    line-height: 40px;
+    padding-left: 10px;
+    text-align: center;
+}

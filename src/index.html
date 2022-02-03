@@ -24,7 +24,7 @@
 
             var start_loop = function()
             {
-                // Start re-draw loop.
+                const video = document.getElementById('video-secondary').play();
                 if (interval_id == 0)
                 {
                     interval_id = setInterval(update, interval_time);
@@ -33,6 +33,7 @@
             
             var stop_loop = function()
             {
+                const video = document.getElementById('video-secondary').pause();
                 clearInterval(interval_id);
                 interval_id = 0;
             }

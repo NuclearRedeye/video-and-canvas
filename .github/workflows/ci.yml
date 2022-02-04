@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Checking code for styling issues
+        run: |
+          make format
+      - name: Checking code for linting issues
+        run: |
+          make lint
+      - name: Checking unit tests pass
+        run: |
+          make test
+      - name: Checking 'debug' code builds
+        run: |
+          sudo make debug
+      - name: Checking 'release' code builds
+        run: |
+          sudo make release
+      - name: Publishing 'unstable' release to https://ghcr.io
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker login -u $REGISTRY_USERNAME -p $REGISTRY_TOKEN $REGISTRY_URL
+          docker build --no-cache \
+                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:$GITHUB_SHA \
+                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:unstable \
+                       .
+          docker push --all-tags $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+          REGISTRY_NAME: ghcr.io
+          REGISTRY_USERNAME: ${{ github.actor }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publishing 'stable' release to https://ghcr.io
+        if: contains(github.ref, 'refs/tags/v')
+        run: |
+          docker login -u $REGISTRY_USERNAME -p $REGISTRY_TOKEN $REGISTRY_URL
+          docker build --no-cache \
+                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:${GITHUB_REF/refs\/tags\/v/} \
+                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:stable \
+                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:latest \
+                       .
+          docker push --all-tags $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME
+        env:
+          REPO_NAME: ${{ github.event.repository.name }}
+          REGISTRY_NAME: ghcr.io
+          REGISTRY_USERNAME: ${{ github.actor }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}

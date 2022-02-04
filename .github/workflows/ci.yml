@@ -31,12 +31,12 @@ jobs:
       - name: Publishing 'unstable' release to https://ghcr.io
         if: github.ref == 'refs/heads/master'
         run: |
-          docker login -u $REGISTRY_USERNAME -p $REGISTRY_TOKEN $REGISTRY_URL
+          docker login -u $REGISTRY_USERNAME -p $REGISTRY_TOKEN $REGISTRY_NAME
           docker build --no-cache \
-                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:$GITHUB_SHA \
-                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:unstable \
+                       -t $REGISTRY_NAME/$REGISTRY_USERNAME/$REPO_NAME:$GITHUB_SHA \
+                       -t $REGISTRY_NAME/$REGISTRY_USERNAME/$REPO_NAME:unstable \
                        .
-          docker push --all-tags $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME
+          docker push --all-tags $REGISTRY_NAME/$REGISTRY_USERNAME/$REPO_NAME
         env:
           REPO_NAME: ${{ github.event.repository.name }}
           REGISTRY_NAME: ghcr.io
@@ -45,13 +45,13 @@ jobs:
       - name: Publishing 'stable' release to https://ghcr.io
         if: contains(github.ref, 'refs/tags/v')
         run: |
-          docker login -u $REGISTRY_USERNAME -p $REGISTRY_TOKEN $REGISTRY_URL
+          docker login -u $REGISTRY_USERNAME -p $REGISTRY_TOKEN $REGISTRY_NAME
           docker build --no-cache \
-                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:${GITHUB_REF/refs\/tags\/v/} \
-                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:stable \
-                       -t $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME:latest \
+                       -t $REGISTRY_NAME/$REGISTRY_USERNAME/$REPO_NAME:${GITHUB_REF/refs\/tags\/v/} \
+                       -t $REGISTRY_NAME/$REGISTRY_USERNAME/$REPO_NAME:stable \
+                       -t $REGISTRY_NAME/$REGISTRY_USERNAME/$REPO_NAME:latest \
                        .
-          docker push --all-tags $REGISTRY_URL/$REGISTRY_USERNAME/$REPO_NAME
+          docker push --all-tags $REGISTRY_NAME/$REGISTRY_USERNAME/$REPO_NAME
         env:
           REPO_NAME: ${{ github.event.repository.name }}
           REGISTRY_NAME: ghcr.io
